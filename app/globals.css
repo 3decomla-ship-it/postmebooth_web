@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0B0B0C;
+  --color-surface: #141414;
+  --color-surface-highlight: #1F1F1F;
+  --color-border: #2A2A2A;
+  --color-input: #2A2A2A;
+  --color-ring: #C5A059;
+  --color-primary: #F5F5F5;
+  --color-secondary: #B8B8B8;
+  --color-accent: #C5A059;
+  --color-accent-hover: #B38B45;
+
+  /* 3-tone Champagne Gradient */
+  --color-champagne-light: #D4AF6A;
+  --color-champagne-mid: #C5A059;
+  --color-champagne-dark: #B38B45;
+  --color-champagne: #C5A059;
+  --color-champagne-hover: #B38B45;
+
+  --color-ivory: #F9F4E8;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+  --color-muted-foreground: #a1a1aa;
+  --color-card-foreground: #F5F5F5;
+
+  /* Emerald signal — premium "live" indicator (think instrument panel, not RGB) */
+  --color-emerald-signal: #2d6a4f;
+  /* deep muted emerald base */
+  --color-emerald-glow: rgba(45, 106, 79, 0.45);
+  /* soft outer glow */
+
+  /* Typography — Tailwind font utilities */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+  --font-display: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+  --font-mono: var(--font-mono-ibm, 'IBM Plex Mono'), ui-monospace, monospace;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Easing */
+  --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-accordion: cubic-bezier(0.4, 0, 0.15, 1);
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0
+    }
+
+    to {
+      height: var(--radix-accordion-content-height)
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height)
+    }
+
+    to {
+      height: 0
+    }
+  }
+
+  /* Cinematic fade up */
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Editorial clip-path wipe */
+  @keyframes clip-reveal {
+    0% {
+      clip-path: inset(100% 0 0 0);
+    }
+
+    100% {
+      clip-path: inset(0% 0 0 0);
+    }
+  }
+
+  /* Blur scale in */
+  @keyframes blur-in {
+    0% {
+      opacity: 0;
+      filter: blur(10px);
+      transform: scale(0.97);
+    }
+
+    100% {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+  }
+
+  /* Float drift */
+  @keyframes float-drift {
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  /* Champagne shimmer */
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
+  /* Hairline cursor sweep */
+  @keyframes hairline-sweep {
+    0% {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    20% {
+      opacity: 1;
+    }
+
+    80% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scaleX(1);
+    }
+  }
+
+  /* Vault drag indicator pulse */
+  @keyframes drag-hint {
+
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: translateX(0);
+    }
+
+    50% {
+      opacity: 0.9;
+      transform: translateX(6px);
+    }
+  }
+
+  /*
+   * CTA Shimmer — 0.8s light sweep, fires once per 5s cycle.
+   */
+  @keyframes cta-shimmer {
+    0% {
+      background-position: -200% center;
+      opacity: 0;
+    }
+
+    8% {
+      opacity: 1;
+    }
+
+    16%,
+    100% {
+      background-position: 200% center;
+      opacity: 0;
+    }
+  }
+
+  /*
+   * Shared-pulse — deep emerald blink, 2.5s cycle.
+   * Think luxury car instrument panel, not gamer RGB.
+   */
+  @keyframes shared-pulse {
+
+    0%,
+    100% {
+      opacity: 0.72;
+      box-shadow: 0 0 4px 0px var(--color-emerald-glow);
+    }
+
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 9px 2px var(--color-emerald-glow);
+    }
+  }
+}
+
+:root {
+  --radius: 0rem;
+  --section-pad: clamp(100px, 12vw, 180px);
+}
+
+/* ─── Base styles ──────────────────────────────── */
+@layer base {
+
+  /* Shared-pulse dot utility — must live outside @theme */
+  .shared-pulse-dot {
+    animation: shared-pulse 2.5s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shared-pulse-dot {
+      animation: none;
+      opacity: 0.85;
+    }
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /*
+   * CRITICAL: Apply Cormorant Garamond directly via the CSS variable
+   * injected by Next.js on the <html> element. Using var(--font-cormorant)
+   * directly here ensures it wins regardless of Tailwind token resolution order.
+   */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+    color: var(--color-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Utility class for display headings that need the serif explicitly */
+  .font-display {
+    font-family: var(--font-cormorant), var(--font-playfair), Georgia, serif !important;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+/* ─── Section divider ──────────────────────────── */
+@layer base {
+  .section-divider {
+    position: relative;
+  }
+
+  .section-divider::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.28), rgba(212, 196, 168, 0.38) 50%, rgba(197, 160, 89, 0.28), transparent);
+    filter: blur(0.3px);
+  }
+}
+
+/* ─── Champagne rule ────────────────────────────── */
+@layer base {
+  .champagne-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, rgba(197, 160, 89, 0.18) 25%, rgba(212, 196, 168, 0.40) 50%, rgba(197, 160, 89, 0.18) 75%, transparent 95%);
+    width: 100%;
+    filter: blur(0.3px);
+  }
+}
+
+
+/*
+ * ─── Glassmorphism nav ───────────────────────────
+ * Defined as a plain CSS class (not @utility) so Turbopack
+ * picks it up correctly at runtime.
+ */
+.glass-nav {
+  background: rgba(5, 5, 5, 0.82) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ─── Gradient text helper ──────────────────────── */
+.text-champagne-gradient {
+  background: linear-gradient(135deg, #D4AF6A 0%, #C5A059 50%, #B38B45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
